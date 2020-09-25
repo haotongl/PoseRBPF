@@ -5,8 +5,7 @@ from torch.autograd import Function
 from torch.autograd.function import once_differentiable
 from torch.nn.modules.utils import _pair
 
-from layer_utils import _C
-
+from utils.RoIAlign.layer_utils import _C
 
 class _ROIPool(Function):
     @staticmethod

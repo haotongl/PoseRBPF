@@ -602,8 +602,7 @@ class ycb_codebook_online_generator(torch.utils.data.Dataset):
             frames_target_cuda = torch.cuda.FloatTensor(self.h, self.w, 4)
             seg_target_cuda = torch.cuda.FloatTensor(self.h, self.w, 4)
             pc_target_cuda = torch.cuda.FloatTensor(self.h, self.w, 4)
-            poses[0][0:3] = [0, 0, self.render_dist]
-            self.renderer.set_poses(poses)
+            poses[0][0:3] = [0, 0, self.render_disa]
             pose = self.renderer.get_poses()
             poses_cam = np.array(pose)
 

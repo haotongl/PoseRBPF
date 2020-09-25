@@ -9,12 +9,12 @@ import math
 import sys
 import copy
 from torch.nn.init import kaiming_normal_
-from utils.posecnn_layer.hard_label import HardLabel
-from utils.posecnn_layer.hough_voting import HoughVoting
-from utils.posecnn_layer.roi_pooling import RoIPool
-from utils.posecnn_layer.point_matching_loss import PMLoss
-from utils.posecnn_layer.roi_target_layer import roi_target_layer
-from utils.posecnn_layer.pose_target_layer import pose_target_layer
+# from utils.posecnn_layer.hard_label import HardLabel
+# from utils.posecnn_layer.hough_voting import HoughVoting
+# from utils.posecnn_layer.roi_pooling import RoIPool
+# from utils.posecnn_layer.point_matching_loss import PMLoss
+# from utils.posecnn_layer.roi_target_layer import roi_target_layer
+# from utils.posecnn_layer.pose_target_layer import pose_target_layer
 from config.config_posecnn import cfg
 
 __all__ = [
@@ -83,7 +83,7 @@ class PoseCNN(nn.Module):
 
         # conv features
         features = list(vgg16.features)[:30]
-        
+
         # change the first conv layer for RGBD
         if cfg.INPUT == 'RGBD':
             conv0 = conv(6, 64, kernel_size=3, relu=False)
@@ -100,7 +100,7 @@ class PoseCNN(nn.Module):
             self.classifier[3] = nn.Linear(256, 256)
         else:
             dim_fc = 4096
-            
+
         print(self.features)
         print(self.classifier)
 
@@ -210,7 +210,7 @@ class PoseCNN(nn.Module):
 
             # rotation regression branch
             rois, poses_target, poses_weight = pose_target_layer(out_box, bbox_prob, bbox_pred, gt_boxes, poses, self.training)
-            if cfg.TRAIN.POSE_REG:    
+            if cfg.TRAIN.POSE_REG:
                 out_qt_conv4 = self.roi_pool_conv4(out_conv4_3, rois)
                 out_qt_conv5 = self.roi_pool_conv5(out_conv5_3, rois)
                 out_qt = out_qt_conv4 + out_qt_conv5
@@ -272,7 +272,7 @@ def posecnn(num_classes, num_units, data=None):
         for k, v in pretrained_dict.items():
             print(k)
         print('=================================================')
-        model_dict.update(pretrained_dict) 
+        model_dict.update(pretrained_dict)
         model.load_state_dict(model_dict)
 
     return model
